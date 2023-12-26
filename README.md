@@ -9,7 +9,7 @@ Thread Uploader is a Python-based tool designed for MINA Protocol Discord modera
 Before you begin, ensure you have met the following requirements:
 
 - Python installed on your system.
-- A Discord bot with moderation privileges.
+- A Discord bot with read message history moderation privileges.
 - Access to OpenAI and Pinecone services.
 
 ## Installation
