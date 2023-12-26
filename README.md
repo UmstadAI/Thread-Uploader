@@ -24,7 +24,7 @@ Follow these steps to install Thread Uploader:
 
 2. **Set Up Virtual Environment**
    ```bash
-   python -m venv venv
+   virtualenv venv
    source venv/bin/activate  # For Unix or MacOS
    venv\Scripts\activate  # For Windows
    ```
