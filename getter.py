@@ -33,10 +33,9 @@ async def on_ready():
     threads = await guild.active_threads()
 
     solved_threads = []
-    thread_ids = [id.id for id in solved_threads]
 
     for thread in threads:
-        if str(thread.parent) == 'zkapps-questions' | str(thread.parent) == 'zkapps-developers':
+        if str(thread.parent) == 'zkapps-questions' or str(thread.parent) == 'zkapps-developers':
             if thread.created_at.timestamp() < days_ago:
                 solved_threads.append(thread)
                 continue
@@ -47,8 +46,52 @@ async def on_ready():
         else:
             continue
 
-    os.makedirs('active_threads', exist_ok=True)
-    print("\n".join(str(element) for element in solved_threads))
+    thread_ids = [id.id for id in solved_threads]
+    os.makedirs('threads', exist_ok=True)
+    print(len(solved_threads))
+
+    for counter, thread_id in enumerate(thread_ids):
+        thread = guild.get_thread(thread_id)
+                
+        if thread:
+            with open(f"threads/{counter}.csv", "w", newline='') as f:
+                try:
+                    message_writer = csv.writer(f)
+                    message_writer.writerow([
+                        "thread_name",
+                        "id",
+                        "channel_id",
+                        "author",
+                        "content",
+                        "timestamp",
+                        "mentions",
+                        "reactions",
+                        "referenced_message",
+                        "member"
+                    ])
+                except:
+                    print("error")
+
+                print(f"Retrieving messages for thread: {thread.name}")
+                async for message in thread.history(limit=100):
+                    try:
+                        message_writer = csv.writer(f)
+                        message_writer.writerow([
+                            thread.name,
+                            message.id,
+                            message.channel.id,
+                            message.author.id,
+                            message.content,
+                            message.created_at,
+                            message.mentions,
+                            message.reactions,
+                            message.reference.message_id if message.reference is not None else None,
+                            message.author
+                        ])
+                    except Exception as e:
+                        print(e)
+        else:
+            print(f"Thread with ID {thread_id} not found in guild {guild.name}")
     
 
 # Run the client
