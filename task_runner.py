@@ -1,7 +1,5 @@
 import subprocess
 
-
-# not included getting files or downloading files! please get them before running this script
 commands = [
     "python getter.py",
     "python processor.py",
@@ -9,4 +7,6 @@ commands = [
 ]
 
 for cmd in commands:
+    print(f"Running command: {cmd}")
     subprocess.run(cmd, shell=True)
+    print(f"Completed command: {cmd}")
