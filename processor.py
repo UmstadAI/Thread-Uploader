@@ -5,56 +5,61 @@ import time
 import pandas as pd
 
 from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv(), override=True) # read local .env file
 
-openai.api_key = os.getenv('OPENAI_API_KEY') or 'OPENAI_API_KEY'
+_ = load_dotenv(find_dotenv(), override=True)  # read local .env file
 
-client = openai.OpenAI(
-    api_key = openai.api_key
-)
+openai.api_key = os.getenv("OPENAI_API_KEY") or "OPENAI_API_KEY"
+
+client = openai.OpenAI(api_key=openai.api_key)
+
 
 def export_json(number_of_csv):
     if not os.path.exists(f"threads/{number_of_csv}.csv"):
         return
-    
+
     df = pd.read_csv(f"threads/{number_of_csv}.csv")
     df = df.iloc[::-1]
 
     if df.empty:
         return
-    
-    thread_name = df.iloc[0]['thread_name']
-    question = {str(df.iloc[0]['author']): df.iloc[0]['content'] }
+
+    thread_name = df.iloc[0]["thread_name"]
+    question = {str(df.iloc[0]["author"]): df.iloc[0]["content"]}
 
     answers = []
     for i in range(1, len(df)):
-        answers.append({str(df.iloc[i]['author']): df.iloc[i]['content']})
+        answers.append({str(df.iloc[i]["author"]): df.iloc[i]["content"]})
 
-    data = [
-        thread_name,
-        question,
-        answers
-    ]
+    data = [thread_name, question, answers]
 
     file_path = f"threads/textfiles/processed{number_of_csv}.txt"
     json_data = json.dumps(data, indent=2)
 
-    with open(file_path, 'w') as file:
+    with open(file_path, "w") as file:
         file.write(json_data)
 
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             contents = file.read()
     except FileNotFoundError:
         print(f"File not found at {file_path}")
     except Exception as e:
         print(f"An error occurred: {e}")
-    
+
+
 os.mkdir("threads/textfiles")
 os.mkdir("threads/results")
 
+
 def count_files_in_folder(directory):
-    return len([name for name in os.listdir(directory) if os.path.isfile(os.path.join(directory, name))])
+    return len(
+        [
+            name
+            for name in os.listdir(directory)
+            if os.path.isfile(os.path.join(directory, name))
+        ]
+    )
+
 
 folder_path = "threads"
 length_of_folder = count_files_in_folder(folder_path)
@@ -109,29 +114,24 @@ Give me a JSON file with the following format in markdown format:
 ```
 """
 
+
 def process_txt(number_of_txt):
     file_path = f"threads/textfiles/processed{number_of_txt}.txt"
 
     if not os.path.exists(file_path):
         return
-    
-    with open(file_path, 'r') as file:
+
+    with open(file_path, "r") as file:
         contents = file.read()
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-1106",
-        response_format={ "type": "json_object" },
+        response_format={"type": "json_object"},
         temperature=0.8,
         messages=[
-            {
-                "role": "system",
-                "content": PROMPT
-            },
-            {
-                "role": "user",
-                "content": str(contents)
-            }
-        ]
+            {"role": "system", "content": PROMPT},
+            {"role": "user", "content": str(contents)},
+        ],
     )
 
     result = response.choices[0].message.content
@@ -139,18 +139,26 @@ def process_txt(number_of_txt):
 
     return result
 
+
 def count_files_in_folder(directory):
-    return len([name for name in os.listdir(directory) if os.path.isfile(os.path.join(directory, name))])
+    return len(
+        [
+            name
+            for name in os.listdir(directory)
+            if os.path.isfile(os.path.join(directory, name))
+        ]
+    )
+
 
 folder_path = "threads/textfiles"
 length_of_folder = count_files_in_folder(folder_path)
-    
+
 for i in range(length_of_folder):
     if not os.path.exists(f"threads/textfiles/processed{i}.txt"):
         continue
-    
+
     file_path = f"threads/textfiles/processed{i}.txt"
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         contents = file.read()
 
     contents = json.loads(contents)
@@ -171,7 +179,7 @@ for i in range(length_of_folder):
     file_path = f"threads/results/active-thread-{i}.json"
 
     print(f"Saving {i}...")
-    with open(file_path, 'w') as file:
+    with open(file_path, "w") as file:
         file.write(json.dumps(result, indent=4))
 
     time.sleep(3)
