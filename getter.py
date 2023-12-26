@@ -103,6 +103,8 @@ async def on_ready():
         else:
             print(f"Thread with ID {thread_id} not found in guild {guild.name}")
 
+    print("All tasks completed. Bot is shutting down...")
+    await client.close()
 
 # Run the client
 from dotenv import load_dotenv, find_dotenv
