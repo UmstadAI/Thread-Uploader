@@ -9,7 +9,7 @@ Thread Uploader is a Python-based tool designed for Discord moderators. It autom
 Before you begin, ensure you have met the following requirements:
 
 - Python installed on your system.
-- A Discord account with moderation privileges.
+- A Discord bot with moderation privileges.
 - Access to OpenAI and Pinecone services.
 
 ## Installation
@@ -18,7 +18,7 @@ Follow these steps to install Thread Uploader:
 
 1. **Clone the Repository**
    ```bash
-   git clone [URL of your repo]
+   git clone https://github.com/UmstadAI/Thread-Uploader.git
    cd thread-uploader
    ```
 
@@ -58,7 +58,7 @@ python task_runner.py
 
 ## Support
 
-For support, contact [Your Contact Information].
+For support, contact berkingurcan@gmail.com
 
 ## Contributing
 
