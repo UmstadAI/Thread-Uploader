@@ -19,7 +19,7 @@ Follow these steps to install Thread Uploader:
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/UmstadAI/Thread-Uploader.git
-   cd thread-uploader
+   cd Thread-Uploader
    ```
 
 2. **Set Up Virtual Environment**
