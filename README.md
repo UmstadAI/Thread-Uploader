@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Thread Uploader is a Python-based tool designed for Discord moderators. It automates the process of fetching, processing, and uploading the latest Discord threads to a Vector DB.
+Thread Uploader is a Python-based tool designed for MINA Protocol Discord moderators. It automates the process of fetching, processing, and uploading the latest Discord threads in the zkapps-developers and zkapps-questions channels to a zkApp Umstad Vector DB.
 
 ## Prerequisites
 
@@ -47,6 +47,23 @@ Follow these steps to install Thread Uploader:
 
 2. **Activate the Virtual Environment**
    Ensure that the virtual environment is activated whenever you work with the project.
+
+## GPT Model
+You can also use gpt-4-1106-preview model depends on tha API consistency. Sometimes it stuck. When it is stable, using gpt4 would be better to process.
+
+So, you can change the model in the processor.py:
+
+```python
+response = client.chat.completions.create(
+        model="gpt-4-1106-preview",
+        response_format={"type": "json_object"},
+        temperature=0.8,
+        messages=[
+            {"role": "system", "content": PROMPT},
+            {"role": "user", "content": str(contents)},
+        ],
+    )
+```
 
 ## Usage
 
