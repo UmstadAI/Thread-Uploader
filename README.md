@@ -48,6 +48,10 @@ Follow these steps to install Thread Uploader:
 2. **Activate the Virtual Environment**
    Ensure that the virtual environment is activated whenever you work with the project.
 
+## Setting the Thread Fetching Time Limit
+Moderators can dynamically set the time limit for thread fetching by changing the  ```AFTER_DAYS = 7``` in the getter.py.
+So, now it will get threads which are created before 7 days ago.
+
 ## GPT Model
 You can also use gpt-4-1106-preview model depends on tha API consistency. Sometimes it stuck. When it is stable, using gpt4 would be better to process.
 
