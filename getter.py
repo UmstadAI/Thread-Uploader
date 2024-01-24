@@ -14,7 +14,7 @@ client = discord.Client(intents=intents)
 FORUM_CHANNEL_ID = 1047214314349658172
 GUILD_ID = 484437221055922177
 
-AFTER_DAYS = 7
+AFTER_DAYS = 5
 
 
 @client.event
